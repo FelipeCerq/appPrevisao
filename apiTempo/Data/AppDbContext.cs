@@ -9,4 +9,5 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<CidadeFavorita> CidadesFavoritas { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 }

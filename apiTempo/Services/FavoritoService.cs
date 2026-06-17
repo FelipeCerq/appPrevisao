@@ -1,25 +1,36 @@
+
 using Microsoft.EntityFrameworkCore;
 using apiTempo.Models;
+using Microsoft.Data.SqlClient;
+using Dapper;
 
 namespace apiTempo.Services
 {
     public class FavoritoService
     {
     private readonly AppDbContext _context;    
+    private readonly IConfiguration _configuration;
 
-    public FavoritoService(AppDbContext context)
+    public FavoritoService(AppDbContext context, IConfiguration configuration)
     {
-        _context = context;
+        _configuration = configuration;
+        _context = context;        
     }
 
-    public async Task<List<CidadeFavorita>> ListarFavoritas()
+    public async Task<List<CidadeFavorita>> ListarFavoritas(int usuarioId)
     {
-          return await _context.CidadesFavoritas.ToListAsync();
+          await using var connection = new SqlConnection(_configuration.GetConnectionString("DefaultConnection"));
+
+          var ListarFavoritos = await connection.QueryAsync<CidadeFavorita>(
+              "SELECT Id, Nome, UsuarioId FROM CidadesFavoritas WHERE UsuarioId = @UsuarioId",
+              new { UsuarioId = usuarioId }              
+          );          
+          return ListarFavoritos.ToList();
     }
 
-    public async Task<bool> RemoverCidadeFavorita(int id)
+    public async Task<bool> RemoverCidadeFavorita(int id, int usuarioId)
     {        
-        var cidadeFavorita = await _context.CidadesFavoritas.FirstOrDefaultAsync(x => x.Id == id);
+        var cidadeFavorita = await _context.CidadesFavoritas.FirstOrDefaultAsync(x => x.Id == id && x.UsuarioId == usuarioId);
         if (cidadeFavorita != null)
         {
             _context.CidadesFavoritas.Remove(cidadeFavorita);
@@ -30,19 +41,19 @@ namespace apiTempo.Services
 
     }
 
-    public async Task<CidadeFavorita> AdicionarCidadeFavorita(string nomeCidade)
+    public async Task<CidadeFavorita> AdicionarCidadeFavorita(string nomeCidade, int usuarioId)
     {           
         if(string.IsNullOrWhiteSpace(nomeCidade))
         {
             throw new ArgumentException("O nome da cidade não pode estar vazio.");
         }
 
-        if(await _context.CidadesFavoritas.AnyAsync(x => x.NomeCidadeFavorita.ToLower() == nomeCidade.ToLower()))
+        if(await _context.CidadesFavoritas.AnyAsync(x => x.Nome.ToLower() == nomeCidade.ToLower() && x.UsuarioId == usuarioId))
         {
             throw new InvalidOperationException("A cidade escolhida já existe na lista de favoritos.");
         }
         
-        var cidadeFavorita = new CidadeFavorita { NomeCidadeFavorita = nomeCidade };
+        var cidadeFavorita = new CidadeFavorita { Nome = nomeCidade, UsuarioId = usuarioId };
         _context.CidadesFavoritas.Add(cidadeFavorita);
 
         await _context.SaveChangesAsync();

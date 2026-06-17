@@ -17,15 +17,29 @@ namespace apiTempo.Controllers
         [HttpGet("{cidade}")]
         public async Task<IActionResult> GetTemperaturaAtual(string cidade)
         {
+            try 
+            {
             var clima = await _climaService.ObterTemperaturaAtual(cidade);
             return Ok(clima);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("previsao/{cidade}")]
         public async Task<IActionResult> GetPrevisao5dias(string cidade)
         {
+            try
+            { 
             var previsao = await _climaService.ObterPrevisao5dias(cidade);
             return Ok(previsao);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

@@ -18,14 +18,14 @@ namespace apiTempo.Services
             var chaveApi = _configuration["OpenWeather:ApiKey"];
             //Example of API call (vindo do email oficial do openweathermap):
             //api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=da3e18af4a58f3cef2634b55ef0039b6
-            // Para temperatura em Celsius e velocidade do vento em metro/seg, use units=metric            
+            // Para temperatura em Celsius e velocidade do vento em metro/seg, usar units=metric            
             var URLopenweathermap = $"https://api.openweathermap.org/data/2.5/weather?q={cidade}&units=metric&APPID={chaveApi}";
             var response = await _httpClient.GetAsync(URLopenweathermap);
 
             response.EnsureSuccessStatusCode();
             if (!response.IsSuccessStatusCode)
             {
-                return null; 
+                 throw new Exception($"Falha ao consultar temperatura.");
             }
             var json = await response.Content.ReadAsStringAsync();
 
@@ -44,16 +44,17 @@ namespace apiTempo.Services
         {
             //Você pode pesquisar previsões do tempo para 5 dias com dados a cada 3 horas por coordenadas geográficas.
             //api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-            // Diferente do weather (precisa da lat e log), o forecast retorna os dados a partir da cidade ficando mais simples; 
+            //Diferente do weather (precisa da lat e log), o forecast retorna os dados a partir da cidade ficando mais simples; 
             var chaveApi = _configuration["OpenWeather:ApiKey"];
             var URLopenweathermap = $"https://api.openweathermap.org/data/2.5/forecast?q={cidade}&units=metric&APPID={chaveApi}";
             var response = await _httpClient.GetAsync(URLopenweathermap);
-            
+                        
             response.EnsureSuccessStatusCode();
             if (!response.IsSuccessStatusCode)
             {
-                return null;
+                 throw new Exception($"Falha ao consultar clima.");
             }
+
             var json = await response.Content.ReadAsStringAsync();
 
             using var documento = JsonDocument.Parse(json);
