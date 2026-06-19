@@ -1,0 +1,21 @@
+<div class="login">
+  <form class="login-card" (ngSubmit)="login()">
+    <h1>Login</h1>
+    <!-- Campo Login -->
+    <label>
+      Email
+      <input type="text" name="email" [(ngModel)]="email" autocomplete="username" required />
+    </label>
+
+    <label> Senha 
+      <input type="password"  name="senha" [(ngModel)]="senha" autocomplete="current-password" required/>
+    </label>
+
+    <button type="submit" [disabled]="carregando">
+      {{ carregando ? 'Entrando...' : 'Entrar' }}
+    </button>
+
+    <p *ngIf="erro" class="erro">{{ erro }}</p>
+    <p style="text-align: center;"> Não tem conta? <a routerLink="/cadastro" style="color: white;">Cadastre-se</a></p>
+  </form>
+</div>

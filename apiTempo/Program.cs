@@ -1,4 +1,4 @@
-using apiTempo.Services;
+﻿using apiTempo.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -39,7 +39,7 @@ compilador.Services.AddScoped<FavoritoService>();
       });
    });
 
-   compilador.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+    compilador.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
    {
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -51,7 +51,17 @@ compilador.Services.AddScoped<FavoritoService>();
                 Encoding.UTF8.GetBytes(jwtKey))
         };
     });
-
+    
+    compilador.Services.AddCors(options =>
+    {
+        options.AddPolicy("AngularApp", policy =>
+        {
+            policy.WithOrigins("http://localhost:4200")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    });
+    
     compilador.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(compilador.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = compilador.Build();
@@ -64,4 +74,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseCors("AngularApp");
 app.Run();

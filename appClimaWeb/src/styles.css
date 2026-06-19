@@ -1,0 +1,13 @@
+﻿html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  background: #08111f;
+}
+
+* {
+  box-sizing: border-box;
+}

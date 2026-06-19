@@ -1,0 +1,27 @@
+<div class="cadastro">
+  <form class="cadastro-card" (ngSubmit)="cadastrar()">
+    <h1>Criar conta</h1>
+    <!-- Cadastro Usuario -->
+    <label>
+      Email
+      <input type="text" name="email" [(ngModel)]="email" autocomplete="email" required/>
+    </label>
+
+    <label>
+      Senha
+      <input type="password" name="senha" [(ngModel)]="senha" autocomplete="new-password" required/>
+    </label>
+
+    <label>
+      Confirmar senha
+      <input type="password" name="senha2" [(ngModel)]="senha2" autocomplete="new-password" required/>
+    </label>
+
+    <button type="submit" [disabled]="carregando">{{ carregando ? 'Cadastrando...' : 'Cadastrar' }}</button>
+
+    <p *ngIf="erro" class="erro">{{ erro }}</p>
+    <p *ngIf="sucesso" class="sucesso">{{ sucesso }}</p>
+
+    <p style="text-align: center;">Já tem conta? <a routerLink="/login" style="color: white;">login</a></p>
+  </form>
+</div>

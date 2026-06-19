@@ -1,0 +1,142 @@
+﻿.favoritos {
+  min-height: 100vh;
+  padding: 2rem;
+  background:
+    linear-gradient(#08111f);
+  color: #e5e7eb;
+}
+
+.favoritos1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.favoritos1 h1,
+.panel h2,
+.favorite-card h3 {
+  margin: 0;
+}
+
+.favoritos1 p {
+  margin-top: 0.4rem;
+  color: rgba(229, 231, 235, 0.75);
+}
+
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.actions a,
+.actions button,
+.pesquisarbotao button,
+.favoritoactions button {
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.35);
+}
+
+.intro-panel {
+  margin-bottom: 1rem;
+}
+
+.pesquisarbotao {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.pesquisarbotao input {
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  outline: none;
+}
+
+.pesquisarbotao input::placeholder {
+  color: rgba(226, 232, 240, 0.6);
+}
+.erro {
+  margin: 0 0 1rem;
+  color: #fca5a5;
+}
+
+.sucesso {
+  margin: 0 0 1rem;
+  color: #86efac;
+}
+
+.favoritosgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.favoritos-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 1.1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.destacar {
+  background: rgba(14, 165, 233, 0.24);
+
+}
+
+.favoritos_card_cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.favoritoactions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.empty-state {
+  margin-top: 1rem;
+  color: rgba(229, 231, 235, 0.72);
+}
+
+@media (max-width: 900px) {
+  .favorites1 {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .favorites {
+    padding: 1rem;
+  }
+
+  .search-box {
+    grid-template-columns: 1fr;
+  }
+}

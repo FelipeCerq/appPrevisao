@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,11 +21,51 @@ namespace apiTempo.Controllers
             _context = context;
         }
 
+        [HttpPost("cadastro")]
+        public async Task<IActionResult> Cadastro([FromBody] LoginRequest request)
+        {
+            var email = request.Email?.Trim().ToLower();
+            var senha = request.Senha?.Trim();
+
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+            {
+                return BadRequest("Email e senha são obrigatórios.");
+            }
+
+            var usuarioExistente = await _context.Usuarios.AnyAsync(x => x.Email == email);
+            if (usuarioExistente)
+            {
+                return Conflict("Usuario já cadastrado.");
+            }
+
+            var hashSenha = new PasswordHasher<Usuario>();
+            var usuario = new Usuario
+            {
+                Email = email,
+                Senha = string.Empty
+            };
+
+            usuario.Senha = hashSenha.HashPassword(usuario, senha);
+
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { ok = true });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == request.Email);
-            if(usuario == null)
+            var email = request.Email?.Trim().ToLower();
+            var senha = request.Senha?.Trim();
+
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(senha))
+            {
+                return BadRequest("Email e senha são obrigatórios.");
+            }
+
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
+            if (usuario == null)
             {
                 return Unauthorized("Usuário não encontrado");
             }
@@ -34,7 +74,7 @@ namespace apiTempo.Controllers
             //// usuario.Senha = hashSenha.HashPassword(usuario, "123");
             //// Receber senha via console na api para testar SQL e hash senha - Fazer isso apenas para teste em DESENV.;
             ////Console.WriteLine($"Senha do usuário: {usuario.Senha}");
-            var verificarsenha = hashSenha.VerifyHashedPassword(usuario, usuario.Senha, request.Senha);
+            var verificarsenha = hashSenha.VerifyHashedPassword(usuario, usuario.Senha, senha);
             if(verificarsenha.Equals(PasswordVerificationResult.Failed))
             {
                 return Unauthorized("Senha incorreta");

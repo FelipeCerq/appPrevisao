@@ -1,0 +1,41 @@
+<section class="favoritos">
+  <header class="favoritos1">
+    <div>
+      <h1>Favoritos</h1>     
+    </div>
+
+    <div class="actions">
+      <a routerLink="/home">Início</a>
+      <button type="button" (click)="voltar()">Voltar</button>
+      <a *ngIf="!autenticado" routerLink="/login">Login</a>
+      <button *ngIf="autenticado" type="button" (click)="logout()">Sair</button>
+    </div>
+  </header>
+
+  <section class="pesquisarbotao">
+    <input type="text" [(ngModel)]="cidade" (keydown.enter)="adicionar()"/>
+    <button type="button" (click)="adicionar()">+</button>
+  </section>
+
+  <p *ngIf="erro" class="erro">{{ erro }}</p>
+  <p *ngIf="mensagem" class="sucesso">{{ mensagem }}</p>
+
+  <section class="favoritosgrid">
+     <article *ngFor="let favorito of (favoritos$ | async); trackBy: atualizaMudou" class="favoritos-card" [class.destacar]="favorito.destaque">
+      <div class="favoritos_card_cabecalho">
+        <div>
+          <h3>{{ favorito.nome }}</h3>
+        </div>
+      </div>
+
+      <div class="favoritoactions">
+        <button type="button" (click)="destacar(favorito.id)">Destacar</button>
+        <button type="button" (click)="remover(favorito.id)">Remover</button>
+      </div>
+    </article>
+  </section>
+
+  <p *ngIf="!(favoritos$ | async)?.length" class="empty-state">
+    Nenhuma cidade favorita cadastrada ainda.
+  </p>
+</section>

@@ -1,0 +1,110 @@
+﻿.home {
+  min-height: 100vh;
+  padding: 4rem;
+  background: color(#111827);
+  color: #e5e7eb;
+}
+
+.home1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.home1 p {
+  margin: 0.4rem 0 0;
+  color: rgba(229, 231, 235, 0.75);
+}
+
+.acoesbotoes {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.acoesbotoes a,
+.acoesbotoes button {
+  padding: 0.8rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #f8fafc;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bordaHome {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 1.25rem;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.35);
+}
+
+.introducao {
+  margin-bottom: 1rem;
+}
+
+.botaodepesquisa {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.botaodepesquisa input {
+  min-width: 0;
+  padding: 0.95rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+  outline: none;
+}
+
+.botaodepesquisa input::placeholder {
+  color: rgba(226, 232, 240, 0.6);
+}
+
+.botaodepesquisa button {
+  min-width: 3.25rem;
+  border-radius: 14px;
+  border: 0;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #0f172a;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.erro {
+  color: red;
+}
+
+.climaAtual-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1rem;
+}
+
+.climaesquerda {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.previsao-card {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+
